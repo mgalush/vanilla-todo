@@ -5,23 +5,20 @@ window.addEventListener('DOMContentLoaded', (event) => {
   let list = document.querySelector('.todo-list');
   let addNewButton = document.querySelector('.add-new');
 
+  // creates new todo
   addNewButton.addEventListener('click', () => {
     //create new todo
     let newTodo = document.createElement('li');
-
-    // add text to todo
-    newTodo.appendChild(document.createTextNode(newTodoText.value));
+    newTodo.innerText = newTodoText.value;
 
     // create delete button for new todo
     let deleteButton = document.createElement('button');
-    deleteButton.appendChild(document.createTextNode('Delete'));
+    deleteButton.innerText = 'Delete';
 
     // add delete button to new todo
     newTodo.appendChild(deleteButton);
 
     // shows new todo to user
     list.appendChild(newTodo);
-    
   });
 });
-
