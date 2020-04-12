@@ -5,20 +5,22 @@ export default class Todo {
 
   constructor() {
     // creates new todo
-    this.addNewButton.addEventListener('click', () => {
-      //create new todo
-      let newTodo = document.createElement('li');
-      newTodo.innerText = this.newTodoText.value;
+    this.addNewButton.addEventListener('click', this.createTodo);
+  }
 
-      // create delete button for new todo
-      let deleteButton = document.createElement('button');
-      deleteButton.innerText = 'Delete';
+  createTodo() {
+    //create new todo
+    let newTodo = document.createElement('li');
+    newTodo.innerText = this.newTodoText.value;
 
-      // add delete button to new todo
-      newTodo.appendChild(deleteButton);
+    // create delete button for new todo
+    let deleteButton = document.createElement('button');
+    deleteButton.innerText = 'Delete';
 
-      // shows new todo to user
-      this.list.appendChild(newTodo);
-    });
+    // add delete button to new todo
+    newTodo.appendChild(deleteButton);
+
+    // shows new todo to user
+    this.list.appendChild(newTodo);
   }
 }
