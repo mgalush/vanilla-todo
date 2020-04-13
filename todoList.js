@@ -9,6 +9,11 @@ export default class TodoList {
     this.addNewButton.addEventListener('click', this.addNewButtonClick);
     this.todoList = this.loadTodos();
     this.todoList.forEach(this.renderTodo);
+    this.newTodoText.addEventListener('keydown', (event) => {
+      if (event.keyCode === 13) {
+        this.addNewButtonClick();
+      }
+    });
   }
 
   renderTodo = (task) => {
