@@ -1,19 +1,14 @@
 export default class TodoList {
   newTodoText = document.querySelector('.new-todo');
   list = document.querySelector('.todo-list');
-  addNewButton = document.querySelector('.add-new');
   todoList;
+  form = document.getElementById('todoList-form');
 
   constructor() {
     // creates new todo
-    this.addNewButton.addEventListener('click', this.addNewButtonClick);
+    this.form.addEventListener('submit', this.addNewButtonClick);
     this.todoList = this.loadTodos();
     this.todoList.forEach(this.renderTodo);
-    this.newTodoText.addEventListener('keydown', (event) => {
-      if (event.keyCode === 13) {
-        this.addNewButtonClick();
-      }
-    });
   }
 
   renderTodo = (task) => {
@@ -36,7 +31,10 @@ export default class TodoList {
     this.list.appendChild(newTodo);
   };
 
-  addNewButtonClick = () => {
+  addNewButtonClick = (event) => {
+    // stop page refresh on form submission
+    event.preventDefault();
+
     // add new todo to todoList
     this.todoList.push(this.newTodoText.value);
 
@@ -46,6 +44,7 @@ export default class TodoList {
     this.renderTodo(this.newTodoText.value, index);
 
     this.saveTodos();
+    this.form.reset();
   };
 
   // NOTE TO SELF: todoElement is arbitrary argument
