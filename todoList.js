@@ -9,15 +9,15 @@ export default class TodoList {
     this.form.addEventListener('submit', this.addNewButtonClick);
     this.todoList = await this.loadTodos();
     // load todo from API
-    for(let todo of this.todoList) {
+    for (let todo of this.todoList) {
       this.renderTodo(todo.name, todo.id);
-    } 
-  }
+    }
+  };
 
-  renderTodo = (task, todoId) => {
+  renderTodo = (todoName, todoId) => {
     //create new todo
     let newTodo = document.createElement('li');
-    newTodo.innerText = task;
+    newTodo.innerText = todoName;
 
     // create delete button for new todo
     let deleteButton = document.createElement('button');
@@ -35,20 +35,32 @@ export default class TodoList {
     this.list.appendChild(newTodo);
   };
 
-  addNewButtonClick = (event) => {
+  addNewButtonClick = async (event) => {
     // stop page refresh on form submission
     event.preventDefault();
 
+    // add to DB
+    const todo = await this.addTodoToDB(this.newTodoText.value);
+
     // add new todo to todoList
-    this.todoList.push(this.newTodoText.value);
+    this.todoList.push(todo);
 
-    // determine where in array the todo index is stored
-    let index = this.todoList.length - 1;
+    this.renderTodo(todo.name, todo.id);
 
-    this.renderTodo(this.newTodoText.value, index);
-
-    this.saveTodos();
     this.form.reset();
+  };
+
+  // add new todo to database
+  addTodoToDB = async (todoName) => {
+    const response = await fetch('http://localhost:3000/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name: todoName }),
+    });
+    const newTodo = await response.json();
+    return newTodo;
   };
 
   // delete todo from DOM
